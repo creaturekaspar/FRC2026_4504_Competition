@@ -8,6 +8,7 @@ import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -19,6 +20,26 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
+//added from kitbot
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import static frc.robot.Constants.OperatorConstants.*;
+import frc.robot.commands.Drive;
+import frc.robot.commands.Eject;
+import frc.robot.commands.ExampleAuto;
+import frc.robot.commands.Intake;
+import frc.robot.commands.LaunchSequence;
+import frc.robot.subsystems.CANFuelSubsystem;
+
+
+/**
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a "declarative" paradigm, very little robot logic should
+ * actually be handled in the {@link Robot} periodic methods (other than the
+ * scheduler calls). Instead, the structure of the robot (including subsystems,
+ * commands, and trigger mappings) should be declared here.
+ */
 public class RobotContainer {
     private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
@@ -31,14 +52,51 @@ public class RobotContainer {
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
-
+//driver controller is joystick, operator controller is operatorController
     private final CommandXboxController joystick = new CommandXboxController(0);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+ 
+ //from kitbot
+    private final CANFuelSubsystem fuelSubsystem = new CANFuelSubsystem();
+ // The driver's controller
+ // private final CommandXboxController driverController = new CommandXboxController(
+//      DRIVER_CONTROLLER_PORT);
+
+  // The operator's controller
+  private final CommandXboxController operatorController = new CommandXboxController(
+      OPERATOR_CONTROLLER_PORT);
+
+  // The autonomous chooser
+  private final SendableChooser<Command> autoChooser = new SendableChooser<>();
+
+  /**
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   */
 
     public RobotContainer() {
         configureBindings();
+   
+
+      // Set the options to show up in the Dashboard for selecting auto modes. If you
+    // add additional auto modes you can add additional lines here with
+    // autoChooser.addOption
+    // autoChooser.setDefaultOption("Autonomous", new ExampleAuto(driveSubsystem, fuelSubsystem));
+    SmartDashboard.putData("Auto Mode", autoChooser);
+    
     }
+
+  /**
+   * Use this method to define your trigger->command mappings. Triggers can be
+   * created via the {@link Trigger#Trigger(java.util.function.BooleanSupplier)}
+   * constructor with an arbitrary predicate, or via the named factories in
+   * {@link edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses
+   * for {@link CommandXboxController Xbox}/
+   * {@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller PS4}
+   * controllers or
+   * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+   * joysticks}.
+   */
 
     private void configureBindings() {
         // Note that X is defined as forward according to WPILib convention,
@@ -75,8 +133,27 @@ public class RobotContainer {
         joystick.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
         drivetrain.registerTelemetry(logger::telemeterize);
-    }
+    
 
+    //kitbot code
+    // While the left bumper on operator controller is held, intake Fuel
+    operatorController.leftBumper().whileTrue(new Intake(fuelSubsystem));
+    // While the right bumper on the operator controller is held, spin up for 1
+    // second, then launch fuel. When the button is released, stop.
+    operatorController.rightBumper().whileTrue(new LaunchSequence(fuelSubsystem));
+    // While the A button is held on the operator controller, eject fuel back out
+    // the intake
+    operatorController.a().whileTrue(new Eject(fuelSubsystem));
+
+
+    fuelSubsystem.setDefaultCommand(fuelSubsystem.run(() -> fuelSubsystem.stop()));
+  }
+
+  /**
+   * Use this to pass the autonomous command to the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+   */
     public Command getAutonomousCommand() {
         // Simple drive forward auton
         final var idle = new SwerveRequest.Idle();
@@ -94,5 +171,7 @@ public class RobotContainer {
             // Finally idle for the rest of auton
             drivetrain.applyRequest(() -> idle)
         );
+     // alternate simpler action
+     //return autoChooser.getSelected();
     }
 }
