@@ -11,12 +11,12 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.CANDriveSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class Drive extends Command {
+public class Drive_kitbot extends Command {
   /** Creates a new Drive. */
   CANDriveSubsystem driveSubsystem;
   CommandXboxController controller;
 
-  public Drive(CANDriveSubsystem driveSystem, CommandXboxController driverController) {
+  public Drive_kitbot(CANDriveSubsystem driveSystem, CommandXboxController driverController) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveSystem);
     driveSubsystem = driveSystem;
