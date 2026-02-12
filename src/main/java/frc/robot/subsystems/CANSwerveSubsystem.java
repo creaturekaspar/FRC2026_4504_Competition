@@ -53,18 +53,6 @@ public class CANSwerveSubsystem extends TunerSwerveDrivetrain implements Subsyst
     private final SwerveRequest.SysIdSwerveSteerGains m_steerCharacterization = new SwerveRequest.SysIdSwerveSteerGains();
     private final SwerveRequest.SysIdSwerveRotation m_rotationCharacterization = new SwerveRequest.SysIdSwerveRotation();
 
-    //add gb 202260212 testing robotcentric command ===================================================
-    // Inside CANSwerveSubsytem class
-    private final SwerveRequest.RobotCentric drive = new SwerveRequest.RobotCentric()
-        .withDeadband(TunerConstants.kSpeedAt12Volts)
-        .withRotationalDeadband(TunerConstants.kRotationAt12Volts)
-        .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
-
-    private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-    private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
-
-    //end =============================================================================================
-
     /* SysId routine for characterizing translation. This is used to find PID gains for the drive motors. */
     private final SysIdRoutine m_sysIdRoutineTranslation = new SysIdRoutine(
         new SysIdRoutine.Config(

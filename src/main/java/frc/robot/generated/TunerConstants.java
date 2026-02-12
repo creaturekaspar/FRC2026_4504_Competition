@@ -77,9 +77,6 @@ public class TunerConstants {
       */
     public static final LinearVelocity kSpeedAt12Volts = MetersPerSecond.of(5.76);
 
-    /** THIS IS CURRENTLY SET TO A PLACEHOLDER VALUE */
-    public static final AngularVelocity kRotationAt12Volts= RadiansPerSecond.of(0.75 * Math.PI);
-
     // Every 1 rotation of the azimuth results in kCoupleRatio drive motor turns;
     // This may need to be tuned to your individual robot
     private static final double kCoupleRatio = 3.125;
