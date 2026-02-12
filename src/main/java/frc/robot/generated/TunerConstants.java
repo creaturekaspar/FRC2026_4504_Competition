@@ -72,9 +72,13 @@ public class TunerConstants {
     // All swerve devices must share the same CAN bus
     public static final CANBus kCANBus = new CANBus("", "./logs/example.hoot");
 
-    // Theoretical free speed (m/s) at 12 V applied output;
-    // This needs to be tuned to your individual robot
+    /** Theoretical free speed (m/s) at 12 V applied output;
+      * This needs to be tuned to your individual robot 
+      */
     public static final LinearVelocity kSpeedAt12Volts = MetersPerSecond.of(5.76);
+
+    /** THIS IS CURRENTLY SET TO A PLACEHOLDER VALUE */
+    public static final AngularVelocity kRotationAt12Volts= RadiansPerSecond.of(0.75 * Math.PI);
 
     // Every 1 rotation of the azimuth results in kCoupleRatio drive motor turns;
     // This may need to be tuned to your individual robot

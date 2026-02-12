@@ -17,6 +17,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Notifier;
@@ -55,14 +56,14 @@ public class CANSwerveSubsystem extends TunerSwerveDrivetrain implements Subsyst
     //add gb 202260212 testing robotcentric command ===================================================
     // Inside CANSwerveSubsytem class
     private final SwerveRequest.RobotCentric drive = new SwerveRequest.RobotCentric()
-        .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1)
+        .withDeadband(TunerConstants.kSpeedAt12Volts)
+        .withRotationalDeadband(TunerConstants.kRotationAt12Volts)
         .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
-    //end ======================================
-
+    //end =============================================================================================
 
     /* SysId routine for characterizing translation. This is used to find PID gains for the drive motors. */
     private final SysIdRoutine m_sysIdRoutineTranslation = new SysIdRoutine(
