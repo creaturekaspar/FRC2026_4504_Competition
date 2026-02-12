@@ -23,15 +23,53 @@ public class TunerConstants {
 
     // The steer motor uses any SwerveModule.SteerRequestType control request with the
     // output type specified by SwerveModuleConstants.SteerMotorClosedLoopOutput
-    private static final Slot0Configs steerGains = new Slot0Configs()
-        .withKP(100).withKI(0).withKD(0.5)
-        .withKS(0.1).withKV(2.33).withKA(0)
-        .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
+    private static Slot0Configs steerGains;
+    // private static final Slot0Configs steerGains = new Slot0Configs()
+    //     .withKP(100).withKI(0).withKD(0.5)
+    //     .withKS(0.1).withKV(2.33).withKA(0)
+    //     .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
+
     // When using closed-loop control, the drive motor uses the control
     // output type specified by SwerveModuleConstants.DriveMotorClosedLoopOutput
-    private static final Slot0Configs driveGains = new Slot0Configs()
-        .withKP(0.1).withKI(0).withKD(0)
-        .withKS(0).withKV(0.124);
+    private static Slot0Configs driveGains;
+    // private static final Slot0Configs driveGains = new Slot0Configs()
+    //     .withKP(0.1).withKI(0).withKD(0)
+    //     .withKS(0).withKV(0.124);
+
+    /** TEMP FUNCTION: should only be used for PID tuning! */
+    public static void setGains(double sKP, double sKI, double sKD, double dKP, double dKI, double dKD) {
+        steerGains = new Slot0Configs()
+            .withKP(sKP).withKI(sKI).withKD(sKD)
+            .withKS(0.1).withKV(2.33).withKA(0)
+            .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
+    
+        driveGains = new Slot0Configs()
+            .withKP(dKP).withKI(dKI).withKD(dKD)
+            .withKS(0).withKV(0.124);
+        
+        ConstantCreator = new SwerveModuleConstantsFactory<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>()
+                .withDriveMotorGearRatio(kDriveGearRatio)
+                .withSteerMotorGearRatio(kSteerGearRatio)
+                .withCouplingGearRatio(kCoupleRatio)
+                .withWheelRadius(kWheelRadius)
+                .withSteerMotorGains(steerGains)
+                .withDriveMotorGains(driveGains)
+                .withSteerMotorClosedLoopOutput(kSteerClosedLoopOutput)
+                .withDriveMotorClosedLoopOutput(kDriveClosedLoopOutput)
+                .withSlipCurrent(kSlipCurrent)
+                .withSpeedAt12Volts(kSpeedAt12Volts)
+                .withDriveMotorType(kDriveMotorType)
+                .withSteerMotorType(kSteerMotorType)
+                .withFeedbackSource(kSteerFeedbackType)
+                .withDriveMotorInitialConfigs(driveInitialConfigs)
+                .withSteerMotorInitialConfigs(steerInitialConfigs)
+                .withEncoderInitialConfigs(encoderInitialConfigs)
+                .withSteerInertia(kSteerInertia)
+                .withDriveInertia(kDriveInertia)
+                .withSteerFrictionVoltage(kSteerFrictionVoltage)
+                .withDriveFrictionVoltage(kDriveFrictionVoltage);
+        }
+        
 
     // The closed-loop output type to use for the steer motors;
     // This affects the PID/FF gains for the steer motors
@@ -101,29 +139,30 @@ public class TunerConstants {
             .withCANBusName(kCANBus.getName())
             .withPigeon2Id(kPigeonId)
             .withPigeon2Configs(pigeonConfigs);
-
-    private static final SwerveModuleConstantsFactory<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> ConstantCreator =
-        new SwerveModuleConstantsFactory<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>()
-            .withDriveMotorGearRatio(kDriveGearRatio)
-            .withSteerMotorGearRatio(kSteerGearRatio)
-            .withCouplingGearRatio(kCoupleRatio)
-            .withWheelRadius(kWheelRadius)
-            .withSteerMotorGains(steerGains)
-            .withDriveMotorGains(driveGains)
-            .withSteerMotorClosedLoopOutput(kSteerClosedLoopOutput)
-            .withDriveMotorClosedLoopOutput(kDriveClosedLoopOutput)
-            .withSlipCurrent(kSlipCurrent)
-            .withSpeedAt12Volts(kSpeedAt12Volts)
-            .withDriveMotorType(kDriveMotorType)
-            .withSteerMotorType(kSteerMotorType)
-            .withFeedbackSource(kSteerFeedbackType)
-            .withDriveMotorInitialConfigs(driveInitialConfigs)
-            .withSteerMotorInitialConfigs(steerInitialConfigs)
-            .withEncoderInitialConfigs(encoderInitialConfigs)
-            .withSteerInertia(kSteerInertia)
-            .withDriveInertia(kDriveInertia)
-            .withSteerFrictionVoltage(kSteerFrictionVoltage)
-            .withDriveFrictionVoltage(kDriveFrictionVoltage);
+        
+    private static SwerveModuleConstantsFactory<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> ConstantCreator;
+    // private static final SwerveModuleConstantsFactory<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> ConstantCreator =
+    //     new SwerveModuleConstantsFactory<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>()
+    //         .withDriveMotorGearRatio(kDriveGearRatio)
+    //         .withSteerMotorGearRatio(kSteerGearRatio)
+    //         .withCouplingGearRatio(kCoupleRatio)
+    //         .withWheelRadius(kWheelRadius)
+    //         .withSteerMotorGains(steerGains)
+    //         .withDriveMotorGains(driveGains)
+    //         .withSteerMotorClosedLoopOutput(kSteerClosedLoopOutput)
+    //         .withDriveMotorClosedLoopOutput(kDriveClosedLoopOutput)
+    //         .withSlipCurrent(kSlipCurrent)
+    //         .withSpeedAt12Volts(kSpeedAt12Volts)
+    //         .withDriveMotorType(kDriveMotorType)
+    //         .withSteerMotorType(kSteerMotorType)
+    //         .withFeedbackSource(kSteerFeedbackType)
+    //         .withDriveMotorInitialConfigs(driveInitialConfigs)
+    //         .withSteerMotorInitialConfigs(steerInitialConfigs)
+    //         .withEncoderInitialConfigs(encoderInitialConfigs)
+    //         .withSteerInertia(kSteerInertia)
+    //         .withDriveInertia(kDriveInertia)
+    //         .withSteerFrictionVoltage(kSteerFrictionVoltage)
+    //         .withDriveFrictionVoltage(kDriveFrictionVoltage);
 
 
     // Front Left

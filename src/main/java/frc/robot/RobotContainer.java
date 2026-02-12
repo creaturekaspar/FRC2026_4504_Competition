@@ -41,8 +41,8 @@ import frc.robot.subsystems.CANFuelSubsystem;
  * commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-    private static double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-    private static double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+    private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric fieldCentricDrive = new SwerveRequest.FieldCentric()
@@ -54,7 +54,7 @@ public class RobotContainer {
 
     private final SwerveRequest.RobotCentric robotCentricDrive = new SwerveRequest.RobotCentric()
             // Add a 10% deadband
-            .withDeadband(RobotContainer.MaxSpeed * 0.1)
+            .withDeadband(MaxSpeed * 0.1)
             .withRotationalDeadband(MaxAngularRate * 0.1)
             // Use open-loop control for drive motors
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
