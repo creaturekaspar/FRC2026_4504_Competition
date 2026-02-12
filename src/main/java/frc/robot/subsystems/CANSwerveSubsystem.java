@@ -10,6 +10,7 @@ import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -52,7 +53,7 @@ public class CANSwerveSubsystem extends TunerSwerveDrivetrain implements Subsyst
     private final SwerveRequest.SysIdSwerveRotation m_rotationCharacterization = new SwerveRequest.SysIdSwerveRotation();
 
     //add gb 202260212 testing robotcentric command ===================================================
-    // Inside CommandSwerveDrivetrain class
+    // Inside CANSwerveSubsytem class
     private final SwerveRequest.RobotCentric drive = new SwerveRequest.RobotCentric()
         .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1)
         .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
