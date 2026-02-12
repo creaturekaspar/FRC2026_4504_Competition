@@ -8,16 +8,16 @@ import static frc.robot.Constants.OperatorConstants.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.CANSwerveSubsystem;
 
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class SwerveDrive_RobotCentric extends Command {
   /** Creates a new SwerveDrive_RobotCentric. */
-    CommandSwerveDrivetrain driveSubsystem;
+    CANSwerveSubsystem driveSubsystem;
     CommandXboxController controller;
     
-  public SwerveDrive_RobotCentric(CommandSwerveDrivetrain driveSystem, CommandXboxController driverController) {
+  public SwerveDrive_RobotCentric(CANSwerveSubsystem driveSystem, CommandXboxController driverController) {
   
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveSystem);

@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.CANSwerveSubsystem;
 
 //added from kitbot
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -53,7 +53,7 @@ public class RobotContainer {
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
  
-    public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    public final CANSwerveSubsystem drivetrain = TunerConstants.createDrivetrain();
  
  //from kitbot
     private final CANFuelSubsystem fuelSubsystem = new CANFuelSubsystem();
