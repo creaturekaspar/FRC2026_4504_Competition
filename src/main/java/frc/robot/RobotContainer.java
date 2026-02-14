@@ -48,7 +48,7 @@ public class RobotContainer {
         autoChooser.addOption("Test Auto", AutoBuilder.buildAuto("Test Auto"));
         autoChooser.setDefaultOption("4m Foreward Auto", AutoBuilder.buildAuto("4m Foreward Auto"));
 
-        SmartDashboard.putData("Auto Choice", autoChooser);
+        SmartDashboard.putData("Auto Choices", autoChooser);
     }
 
     private void configureBindings() {
