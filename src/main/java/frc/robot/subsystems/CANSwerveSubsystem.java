@@ -227,8 +227,6 @@ public class CANSwerveSubsystem extends TunerSwerveDrivetrain implements Subsyst
         } catch (Exception ex) {
             DriverStation.reportError("Failed to load PathPlanner config and configure AutoBuilder", ex.getStackTrace());
         }
-
-        System.out.println(AutoBuilder.isConfigured());
     }
 
     /**
