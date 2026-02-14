@@ -37,7 +37,18 @@ public class TunerConstants {
     //     .withKS(0).withKV(0.124);
 
     /** TEMP FUNCTION: should only be used for PID tuning! */
+    
     public static void setGains(double sKP, double sKI, double sKD, double dKP, double dKI, double dKD) {
+
+        /*hardcode vars for temp testing
+        sKP=100;
+        sKI=0;
+        sKD=0.5;
+
+        dKP=0.1;
+        dKI=0;
+        dKD=0;
+*/
         steerGains = new Slot0Configs()
             .withKP(sKP).withKI(sKI).withKD(sKD)
             .withKS(0.1).withKV(2.33).withKA(0)
