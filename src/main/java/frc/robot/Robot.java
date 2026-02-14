@@ -28,21 +28,6 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         m_timeAndJoystickReplay.update();
         CommandScheduler.getInstance().run(); 
-<<<<<<< HEAD
-    
-        // TODO: REMOVE ONCE TUNING DONE!
-        
-        TunerConstants.setGains(
-            SmartDashboard.getNumber("Steer Gain P", 100),
-            SmartDashboard.getNumber("Steer Gain I", 0),
-            SmartDashboard.getNumber("Steer Gain D", 0.5),
-
-            SmartDashboard.getNumber("Drive Gain P", 0.1),
-            SmartDashboard.getNumber("Drive Gain I", 0),
-            SmartDashboard.getNumber("Drive Gain D", 0)
-        );
-=======
->>>>>>> 4d108edd616ada4193753a405b0ade3713c4b6c3
     }
 
     @Override

@@ -29,62 +29,9 @@ public class TunerConstants {
         .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
     // When using closed-loop control, the drive motor uses the control
     // output type specified by SwerveModuleConstants.DriveMotorClosedLoopOutput
-<<<<<<< HEAD
-    private static Slot0Configs driveGains;
-    // private static final Slot0Configs driveGains = new Slot0Configs()
-    //     .withKP(0.1).withKI(0).withKD(0)
-    //     .withKS(0).withKV(0.124);
-
-    /** TEMP FUNCTION: should only be used for PID tuning! */
-    
-    public static void setGains(double sKP, double sKI, double sKD, double dKP, double dKI, double dKD) {
-
-        /*hardcode vars for temp testing
-        sKP=100;
-        sKI=0;
-        sKD=0.5;
-
-        dKP=0.1;
-        dKI=0;
-        dKD=0;
-*/
-        steerGains = new Slot0Configs()
-            .withKP(sKP).withKI(sKI).withKD(sKD)
-            .withKS(0.1).withKV(2.33).withKA(0)
-            .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
-    
-        driveGains = new Slot0Configs()
-            .withKP(dKP).withKI(dKI).withKD(dKD)
-            .withKS(0).withKV(0.124);
-        
-        ConstantCreator = new SwerveModuleConstantsFactory<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>()
-                .withDriveMotorGearRatio(kDriveGearRatio)
-                .withSteerMotorGearRatio(kSteerGearRatio)
-                .withCouplingGearRatio(kCoupleRatio)
-                .withWheelRadius(kWheelRadius)
-                .withSteerMotorGains(steerGains)
-                .withDriveMotorGains(driveGains)
-                .withSteerMotorClosedLoopOutput(kSteerClosedLoopOutput)
-                .withDriveMotorClosedLoopOutput(kDriveClosedLoopOutput)
-                .withSlipCurrent(kSlipCurrent)
-                .withSpeedAt12Volts(kSpeedAt12Volts)
-                .withDriveMotorType(kDriveMotorType)
-                .withSteerMotorType(kSteerMotorType)
-                .withFeedbackSource(kSteerFeedbackType)
-                .withDriveMotorInitialConfigs(driveInitialConfigs)
-                .withSteerMotorInitialConfigs(steerInitialConfigs)
-                .withEncoderInitialConfigs(encoderInitialConfigs)
-                .withSteerInertia(kSteerInertia)
-                .withDriveInertia(kDriveInertia)
-                .withSteerFrictionVoltage(kSteerFrictionVoltage)
-                .withDriveFrictionVoltage(kDriveFrictionVoltage);
-        }
-        
-=======
     private static final Slot0Configs driveGains = new Slot0Configs()
         .withKP(0.1).withKI(0).withKD(0)
         .withKS(0).withKV(0.124);
->>>>>>> 4d108edd616ada4193753a405b0ade3713c4b6c3
 
     // The closed-loop output type to use for the steer motors;
     // This affects the PID/FF gains for the steer motors
