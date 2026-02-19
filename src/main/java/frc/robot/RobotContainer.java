@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.CANElevatorSubsystem;
 import frc.robot.subsystems.CANSwerveSubsystem;
 
 public class RobotContainer {
@@ -39,6 +40,8 @@ public class RobotContainer {
     private final CommandXboxController joystick = new CommandXboxController(0);
 
     public final CANSwerveSubsystem drivetrain = TunerConstants.createDrivetrain();
+
+    public final CANElevatorSubsystem elevator = new CANElevatorSubsystem();
 
     private final SendableChooser<Command> autoChooser  = new SendableChooser<>();
 
