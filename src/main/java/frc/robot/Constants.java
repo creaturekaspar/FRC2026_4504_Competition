@@ -32,6 +32,8 @@ public final class Constants {
     public static final int FEEDER_MOTOR_ID = 53;
     public static final int INTAKE_MOTOR_ID = 52;
     public static final int SHOOTER_MOTOR_ID = 54;
+    public static final int INTAKE_ARM_MOTOR_ID = 56;
+    public static final int INTAKE_ARM_FOLLOWER_MOTOR_ID = 57;
 
     // Current limit and nominal voltage for fuel mechanism motors.
     public static final int FEEDER_MOTOR_CURRENT_LIMIT = 60;
