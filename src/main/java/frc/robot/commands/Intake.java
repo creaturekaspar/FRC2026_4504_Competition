@@ -25,8 +25,8 @@ public class Intake extends Command {
   @Override
   public void initialize() {
     fuelSubsystem
-        .setIntakeLauncherRoller(SmartDashboard.getNumber("Intaking intake roller value", INTAKING_INTAKE_VOLTAGE));
-    fuelSubsystem.setFeederRoller(SmartDashboard.getNumber("Intaking feeder roller value", INTAKING_FEEDER_VOLTAGE));
+        .setIntakeRoller(SmartDashboard.getNumber("Intake roller value", INTAKE_VOLTAGE));
+    fuelSubsystem.setFeederRoller(SmartDashboard.getNumber("Feeder roller value", FEEDER_VOLTAGE));
   }
 
   // Called every time the scheduler runs while the command is scheduled. This
@@ -38,7 +38,7 @@ public class Intake extends Command {
   // Called once the command ends or is interrupted. Stop the rollers
   @Override
   public void end(boolean interrupted) {
-    fuelSubsystem.setIntakeLauncherRoller(0);
+    fuelSubsystem.setIntakeRoller(0);
     fuelSubsystem.setFeederRoller(0);
   }
 

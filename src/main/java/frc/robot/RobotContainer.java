@@ -18,9 +18,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-
+import frc.robot.commands.Intake;
+import frc.robot.commands.LaunchSequence;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CANElevatorSubsystem;
+import frc.robot.subsystems.CANFuelSubsystem;
 import frc.robot.subsystems.CANSwerveSubsystem;
 
 public class RobotContainer {
@@ -40,6 +42,8 @@ public class RobotContainer {
     private final CommandXboxController joystick = new CommandXboxController(0);
 
     public final CANSwerveSubsystem drivetrain = TunerConstants.createDrivetrain();
+
+    public final CANFuelSubsystem fuelSubsystem = new CANFuelSubsystem();
 
     public final CANElevatorSubsystem elevator = new CANElevatorSubsystem();
 
@@ -89,6 +93,9 @@ public class RobotContainer {
         joystick.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
         drivetrain.registerTelemetry(logger::telemeterize);
+
+        joystick.b().whileTrue(new Intake(fuelSubsystem));
+        joystick.a().whileTrue(new LaunchSequence(fuelSubsystem));
     }
 
     public Command getAutonomousCommand() {
