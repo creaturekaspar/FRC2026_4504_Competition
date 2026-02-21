@@ -23,9 +23,9 @@ public class CANElevatorSubsystem extends SubsystemBase {
     private final double ZERO_OFFSET = 0;
     private final double GRAVITY_COMPENSATION = 0.75;
 
-    private final double P = 0.3;
+    private final double P = 1.0;
     private final double I = 0;
-    private final double D = 0;
+    private final double D = 0.01;
     // END CONSTANTS
 
     private final SparkMax elevatorMotor;
@@ -34,7 +34,7 @@ public class CANElevatorSubsystem extends SubsystemBase {
     // Profiled to ensure smooth movement
     private final ProfiledPIDController elevatorPIDController;
 
-    private NetworkTableEntry nt_angle, nt_desiredAngle;
+    private NetworkTableEntry nt_rotation, nt_desiredRotation;
     private boolean isDone = false;
 
     public CANElevatorSubsystem() {
@@ -63,43 +63,47 @@ public class CANElevatorSubsystem extends SubsystemBase {
         );
 
         TrapezoidProfile.Constraints elevatorPIDConstraints;
-        // Set both max velocity and max acceleration to 45 deg/sec
-        elevatorPIDConstraints = new TrapezoidProfile.Constraints(45, 45);
+        // Set both max velocity and max acceleration to 3.0 rotations/sec
+        elevatorPIDConstraints = new TrapezoidProfile.Constraints(3.0, 3.0);
         // Temp PID values, will probably need tuning
         elevatorPIDController = new ProfiledPIDController(P, I, D, elevatorPIDConstraints);
 
-        nt_angle = SmartDashboard.getEntry("Elevator Angle");
-        nt_desiredAngle = SmartDashboard.getEntry("Elevator Desired Angle");
-        nt_desiredAngle.setDefaultDouble(55);
+        nt_rotation = SmartDashboard.getEntry("Elevator Rotation");
+        nt_desiredRotation = SmartDashboard.getEntry("Elevator Desired Rotation");
+        nt_desiredRotation.setDefaultDouble(1);
     }
     
-    public double getEncoderAngle() {
-        // Converting from rotations to degrees
-        return -elevatorEncoder.getPosition()*360 - ZERO_OFFSET;
+    public double getEncoderRotation() {
+        return elevatorEncoder.getPosition() - ZERO_OFFSET;
     }
 
-    public void setDesiredAngle(double degrees) {
-        nt_desiredAngle.setNumber(degrees);
+    public void setDesiredRotation(double rotations) {
+        nt_desiredRotation.setNumber(rotations);
         isDone = false;
     }
 
-    public boolean isAtDesiredAngle() {
+    public boolean isAtDesiredRotation() {
         return isDone;
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        final double encoderAngle = getEncoderAngle();
+        final double encoderRotation = getEncoderRotation();
 
-        nt_angle.setDouble(encoderAngle);
+        nt_rotation.setDouble(encoderRotation);
 
-        double elevatorMotorSetpoint = MathUtil.clamp(nt_desiredAngle.getDouble(50), 20, 60);
+        double elevatorMotorSetpoint = MathUtil.clamp(nt_desiredRotation.getDouble(1), 0, 10);
 
-        double elevatorMotorVoltage = GRAVITY_COMPENSATION * Math.cos(Math.toRadians(encoderAngle)) 
-                                      + elevatorPIDController.calculate(encoderAngle, elevatorMotorSetpoint);
-                                
+        double elevatorMotorVoltage = /*GRAVITY_COMPENSATION * Math.cos(Math.toRadians(encoderRotation)) 
+                                      +*/ elevatorPIDController.calculate(encoderRotation, elevatorMotorSetpoint);
+        
+        System.out.print(elevatorMotorVoltage + " ");
+        System.out.print(elevatorMotorSetpoint + " ");
+        System.out.println(encoderRotation + " ");
+        System.out.println(isDone);
+
         elevatorMotor.setVoltage(elevatorMotorVoltage);
-        isDone = Math.abs(encoderAngle - elevatorMotorSetpoint) < 1;
+        isDone = Math.abs(encoderRotation - elevatorMotorSetpoint) < 0.01;
     }
 }
